@@ -3,27 +3,29 @@ const { gql } = require("apollo-server");
 const typeDefs = gql`
 
   type DailyData{
-    date: String
+    date: Float
     icon: String
-    minTemperature: String
-    maxTemperature: String
+    minTemperature: Float
+    maxTemperature: Float
   }
 
   type Current{
-    temperature: String
+    temperature: Float
     icon: String
     main: String
-    sunrise: String
-    sunset: String
-    pop: String
-    uv: String
-    dewDrops: String
+    sunrise: Float
+    sunset: Float
+    pop: Float
+    uv: Float
+    dewDrops: Float
+    windSpeed: Float
+    humidity: Float
   }
 
   type HourData {
-    time: String
+    time: Float
     icon: String
-    temperature: String
+    temperature: Float
   }
 
   type City {

@@ -3,7 +3,7 @@ const { UserInputError } = require("apollo-server");
 
 const WEATHER_API = `https://api.openweathermap.org/data/2.5/weather?appid=${process.env.KEY}`;
 const GROUP_API = `https://api.openweathermap.org/data/2.5/group?appid=${process.env.KEY}`;
-const WEATHER_API_DETAIL = (lat, lon) => (`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,current&appid=${process.env.KEY}&units=metric`)
+const WEATHER_API_DETAIL = (lat, lon) => (`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=${process.env.KEY}&units=metric`)
 
 const resolvers = {
 
@@ -32,6 +32,20 @@ const resolvers = {
         }
 
         const response = await axios.get(WEATHER_API_DETAIL(data.coord.lat, data.coord.lon))
+        // console.log(response)
+        const current = {
+          temperature: response.data.current.temp,
+          icon: response.data.current.weather[0].icon,
+          main: response.data.current.weather[0].main,
+          sunrise: response.data.current.sunrise,
+          sunset: response.data.current.sunset,
+          pop: response.data.daily[0].pop,
+          uv: response.data.daily[0].uvi,
+          dewDrops: response.data.daily[0].dew_point,
+          windSpeed: response.data.current.wind_speed,
+          humidity: response.data.current.humidity
+        }
+        // console.log(current)
         const hourData = [];
         let i=0;
         while(i<10){
@@ -61,6 +75,7 @@ const resolvers = {
           coord: data.coord,
           hourData:hourData,
           dailyData:dailyData,
+          current:current,
           weather: {
             summary: {
               title: data.weather[0].main,
@@ -86,6 +101,7 @@ const resolvers = {
           },
         };
       } catch (e) {
+        console.log(e);
         return null;
       }
     },
