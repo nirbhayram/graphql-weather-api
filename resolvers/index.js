@@ -31,14 +31,36 @@ const resolvers = {
           });
         }
 
-        const { detailData } = await axios.get(WEATHER_API_DETAIL(data.coord.lat, data.coord.lon))
-        
+        const response = await axios.get(WEATHER_API_DETAIL(data.coord.lat, data.coord.lon))
+        const hourData = [];
+        let i=0;
+        while(i<10){
+          hourData.push({
+            time: response.data.hourly[i].dt,
+            icon: response.data.hourly[i].weather[0].icon,
+            temperature: response.data.hourly[i].temp
+          })
+          i=i+1;
+        }
+        const dailyData = [];
+        i=0;
+        while(i<8){
+          dailyData.push({
+            date: response.data.daily[i].dt,
+            icon: response.data.daily[i].weather[0].icon,
+            minTemperature: response.data.daily[i].temp.min,
+            maxTemperature: response.data.daily[i].temp.max
+          })
+          i = i+1;
+        }
 
         return {
           id: data.id,
           name: data.name,
           country: data.sys.country,
           coord: data.coord,
+          hourData:hourData,
+          dailyData:dailyData,
           weather: {
             summary: {
               title: data.weather[0].main,
