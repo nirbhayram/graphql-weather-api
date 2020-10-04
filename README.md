@@ -3,16 +3,11 @@
 
 Retrieve the current weather for any given city. Since this GraphQL API uses the free-tier of the Open Weather Map API, it is restricted to 60 calls/minute. 
 
-However, feel free to use it for prototyping and demo projects anyways. A live version is available at:
-
-[graphql-weather-api.herokuapp.com](https://graphql-weather-api.herokuapp.com/) 🌈
-
 ## How to Use
 
 #### Queries
 
 * getCityByName (`name` *required*, `country` *optional*, `config` *optional*)
-* getCityById (`id` *required*, , `config` *optional*)
 
 *Language and unit system can be specified via `config`.*
 
@@ -20,36 +15,31 @@ However, feel free to use it for prototyping and demo projects anyways. A live v
 
 ```graphql
 query {
-  getCityByName(name: "Gothenburg") {
-    id
+  getCityByName(name:"pune"){
     name
-    country
-    coord {
-      lon
-      lat
+    dt
+    current{
+      temperature
+      icon
+      main
+      sunrise
+      sunset
+      pop
+      uv
+      dewDrops
+      windSpeed
+      humidity
     }
-    weather {
-      summary {
-        title
-        description
-        icon
-      }
-      temperature {
-        actual
-        feelsLike
-        min
-        max
-      }
-      wind {
-        speed
-        deg
-      }
-      clouds {
-        all
-        visibility
-        humidity
-      }
-      timestamp
+    hourData{
+      time
+      icon
+      temperature
+    }
+    dailyData{
+      date
+      icon
+      minTemperature
+      maxTemperature
     }
   }
 }
@@ -65,12 +55,3 @@ npm run dev # Using nodemon for auto-reloading
 ```
 The server starts at http://localhost:4000/
 
-
-## About
-
-Konstantin Münster – [konstantin.digital](https://konstantin.digital) – [mail@konstantin.digital](mailto:mail@konstantin.digital)
-
-Distributed under the [MIT](http://showalicense.com/?fullname=Konstantin+M%C3%BCnster&year=2019#license-mit) license. 
-See ``LICENSE`` for more information.
-
-[https://github.com/konstantinmuenster](https://github.com/konstantinmuenster)
